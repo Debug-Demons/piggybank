@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import Business from './components/Business/Business';
 import User from './components/User/User';
+import CreateAccount from './components/CreateAccount';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,8 @@ const App = () => {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Business" component={Business} />
-        <Stack.Screen name="HUser" component={User} />
+        <Stack.Screen name="User" component={User} />
+        <Stack.Screen name="Create Account" component={CreateAccount} />
       </Stack.Navigator>
     </NavigationContainer>
   );

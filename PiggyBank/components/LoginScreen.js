@@ -67,6 +67,7 @@ const LoginScreen = ({ navigation}) => {
         onChangeText={(text) => setPassword(text)}
       />
       <Button title="Login" onPress={handleLogin} />
+      <Button title="Create New Account" onPress={ () => navigation.navigate('Create Account')} />
     </View>
   );
 };
