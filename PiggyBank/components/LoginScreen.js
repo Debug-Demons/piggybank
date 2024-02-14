@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import axios from 'axios';
-
+import {FirebaseAuth} from '../firebaseConfig'
 const API_URL = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
-
+const auth = FirebaseAuth;
 const LoginScreen = ({ navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

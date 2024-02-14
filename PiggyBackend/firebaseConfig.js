@@ -1,6 +1,4 @@
 import { initializeApp } from 'firebase/app';
-import {getAuth} from "firebase/auth";
-import{getFirestore} from "firebase/firestore";
 
 const firebaseConfig = {
     //Look in discord for keys to project
@@ -21,7 +19,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const FirebaseAuth = getAuth(FirebaseAuth);
-const FirebaseStore = getFirestore(FirebaseStore);
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
