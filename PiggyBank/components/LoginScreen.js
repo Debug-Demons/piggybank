@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation}) => {
 
   const handleLogin = async () => {
     //TEST HOMEPAGE
-    navigation.replace('Business', {username})
+    navigation.replace('User', {username})
     // Remove after database connection
     try {
       const response = await axios.post(`${API_URL}/login`, {
