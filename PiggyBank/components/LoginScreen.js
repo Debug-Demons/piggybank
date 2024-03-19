@@ -1,73 +1,51 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-const API_URL = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
 
-const LoginScreen = ({ navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('User');
-  const [buttonText, setButtonText] = useState('Need to Login as a Business?');
-
+  const [user, setUser] = useState(null); //state variable to hold user data.
   const handleLogin = async () => {
-    //TEST HOMEPAGE
-    navigation.replace('User', {username})
-    // Remove after database connection
     try {
-      const response = await axios.post(`${API_URL}/login`, {
-        username,
-        password,
-        userType,
-      });
+      const auth = getAuth();
+      const response = await signInWithEmailAndPassword(auth, username, password);
+      // Successfully logged in, obtain user data
+      const userData = response.user;
 
-      if (response.data.success || true) { //TEST LOGIN
-        if (userType == 'User') {
-          navigation.replace('User', { username });
-        } else if (userType == 'Business') {
-          navigation.replace('Business', { username });
-        }
-      } else {
-        
-      }
+      // Set the user data to state or pass it to the user context
+      setUser(userData);
+
+      // Navigate to the user home screen
+      navigation.replace('User', { user: userData });
+
     } catch (error) {
       console.error('Error during login:', error);
-      Alert.alert('Login Failed', 'An error occurred during login');
-    }
-  };
-
-  const switchUser = () => {
-    if (userType == 'User') {
-      setUserType('Business');
-    } else {
-      setUserType('User');
-    }
-    if (buttonText == 'Need to Login as a Business?') {
-      setButtonText('Need to Login as a User?');
-    } else {
-      setButtonText('Need to Login as a Business?')
+      Alert.alert('Login Failed', error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login {userType}</Text>
-      <Button title={buttonText} onPress={switchUser} />
+      <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Email"
+        autoCapitalize="none"
         value={username}
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
+        autoCapitalize="none"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
       <Button title="Login" onPress={handleLogin} />
-      <Button title="Create New Account" onPress={ () => navigation.navigate('Create Account')} />
+      <Button title="Create New Account" onPress={() => navigation.navigate('Create Account')} />
     </View>
   );
 };

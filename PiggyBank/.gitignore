@@ -33,3 +33,10 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+#env files
+.env
+
+#TEMPORARY firebase config file until env variables are set up
+
+firebase.js
