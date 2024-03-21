@@ -5,8 +5,14 @@ import LoginScreen from './components/LoginScreen';
 import Business from './components/Business/Business';
 import User from './components/User/User';
 import CreateAccount from './components/CreateAccount';
+import { firebaseConfig } from './firebase';
+
+
 
 const Stack = createStackNavigator();
+
+
+
 
 const App = () => {
   return (
