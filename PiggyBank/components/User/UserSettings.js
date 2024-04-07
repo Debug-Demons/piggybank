@@ -1,15 +1,15 @@
 // Import necessary components from React Native
 import React, { useState } from 'react';
-import { View, Text, Button, Switch, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, Button, Switch, StyleSheet, RefreshControl } from 'react-native';
 
 // Create a functional component for the Settings page
-const UserSettings = ({navigation}) => {
+const UserSettings = React.memo(({navigation, refreshing, onRefresh, data}) => {
   // State variables for settings
   const [notificationEnabled, setNotificationEnabled] = useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.settingRow}>
         <Text style={styles.settingLabel}>Enable Notifications</Text>
         <Switch
@@ -26,9 +26,9 @@ const UserSettings = ({navigation}) => {
         />
       </View>
       <Button title="Logout" onPress={ () => navigation.replace('Login')}/>
-    </View>
+    </ScrollView>
   );
-};
+});
 
 // Styles for the components
 const styles = StyleSheet.create({
