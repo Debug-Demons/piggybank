@@ -10,13 +10,14 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 //Look at firebase console for keys to the api
 const firebaseConfig = {
-  apiKey: XXXXXXXXXXX,
-  authDomain:XXXXXXXXXXX,
-  projectId: XXXXXXXXXXX,
-  storageBucket: XXXXXXXXXXX,
-  messagingSenderId: XXXXXXXXXXX,
-  appId: XXXXXXXXXXXXXX,
-  measurementId: XXXXXXXXXX
+  apiKey: "AIzaSyB8D6oPus_pTHaseLuHcCXl-Rzac41OCeI",
+  authDomain: "piggybank-82fd1.firebaseapp.com",
+  projectId: "piggybank-82fd1",
+  storageBucket: "piggybank-82fd1.appspot.com",
+  messagingSenderId: "292913345177",
+  appId: "1:292913345177:web:23f0fbcc2fd530c744be08",
+  measurementId: "G-9JVJH74N17"
+
 };
 
 // Initialize Firebase

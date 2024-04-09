@@ -8,7 +8,6 @@ import CreateAccount from './components/CreateAccount';
 import { firebaseConfig } from './firebase';
 
 
-
 const Stack = createStackNavigator();
 
 

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Switch, StyleSheet } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth'; // Import Firebase authentication functions
+import { getUserData } from '../storage';
 // Create a functional component for the Settings page
 const UserSettings = ({navigation}) => {
   // State variables for settings
