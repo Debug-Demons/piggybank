@@ -31,7 +31,7 @@ const UserHome = () => {
         <Text style={styles.textItem}>{userData.name.first} {userData.name.last}</Text>
         <Text style={styles.textItem}>{userData.Email}</Text>
         <Text style={styles.textItem}>{userData.phoneNumber}</Text>
-        <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text>
+        <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text> 
     </View>);
 };
 
