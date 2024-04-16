@@ -1,14 +1,36 @@
-import React from 'react';
-import {ScrollView, Text, Image, StyleSheet, RefreshControl} from 'react-native';
 
+import React, { useEffect, useState } from 'react';
+import {ScrollView, Text, Image, StyleSheet, RefreshControl,ActivityIndicator} from 'react-native';
+import { getUserData } from '../storage';
 const UserHome = React.memo(({refreshing, onRefresh, data}) => {
+
+    //const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
+
+
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const data = await getUserData();
+          if (data) {
+            setUserData(data);
+          }
+          setLoading(false);
+        };
+        fetchData();
+      }, []);
+      if (loading) {
+        return <ActivityIndicator />;
+      }
+
     return (<ScrollView contentContainerStyle = {{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }} 
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <Image style={styles.imageDim} source={require('../../assets/piggyBankLogo.png')}></Image>
         <Text style={styles.headerText}>Welcome to Piggy Bank!</Text>
-        <Text style={styles.textItem}>{data.username}</Text>
-        <Text style={styles.textItem}>{data.email}</Text>
-        <Text style={styles.textItem}>{data.phoneNumber}</Text>
+        <Text style={styles.textItem}>{userData.name.first} {userData.name.last}</Text>
+        <Text style={styles.textItem}>{userData.Email}</Text>
+        <Text style={styles.textItem}>{userData.phoneNumber}</Text>
         <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text>
     </ScrollView>);
 });
