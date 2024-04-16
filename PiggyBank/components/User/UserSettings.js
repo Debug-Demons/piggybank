@@ -1,10 +1,11 @@
 // Import necessary components from React Native
 import React, { useState } from 'react';
-import { View, Text, Button, Switch, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, Button, Switch, StyleSheet, RefreshControl } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth'; // Import Firebase authentication functions
 import { getUserData } from '../storage';
+
 // Create a functional component for the Settings page
-const UserSettings = ({navigation}) => {
+const UserSettings = React.memo(({navigation, refreshing, onRefresh, data}) => {
   // State variables for settings
   const [notificationEnabled, setNotificationEnabled] = useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
@@ -23,7 +24,7 @@ const UserSettings = ({navigation}) => {
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.settingRow}>
         <Text style={styles.settingLabel}>Enable Notifications</Text>
         <Switch
@@ -39,10 +40,11 @@ const UserSettings = ({navigation}) => {
           onValueChange={(value) => setDarkModeEnabled(value)}
         />
       </View>
-      <Button title="Logout" onPress={ handleLogout}/>
-    </View>
+      <Button title="Logout" onPress={ () => navigation.replace('Login')}/>
+    </ScrollView>
+
   );
-};
+});
 
 // Styles for the components
 const styles = StyleSheet.create({

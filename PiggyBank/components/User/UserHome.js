@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
-import {View, Text, Image, StyleSheet, ActivityIndicator} from 'react-native';
+import {ScrollView, Text, Image, StyleSheet, RefreshControl,ActivityIndicator} from 'react-native';
 import { getUserData } from '../storage';
-const UserHome = () => {
-    const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
+const UserHome = React.memo(({refreshing, onRefresh, data}) => {
+
+    //const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
 
 
     const [userData, setUserData] = useState(null);
@@ -16,32 +18,24 @@ const UserHome = () => {
           }
           setLoading(false);
         };
-    
         fetchData();
       }, []);
-    
       if (loading) {
         return <ActivityIndicator />;
       }
 
-
-    return (<View style = {styles.container}>
+    return (<ScrollView contentContainerStyle = {{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }} 
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <Image style={styles.imageDim} source={require('../../assets/piggyBankLogo.png')}></Image>
         <Text style={styles.headerText}>Welcome to Piggy Bank!</Text>
         <Text style={styles.textItem}>{userData.name.first} {userData.name.last}</Text>
         <Text style={styles.textItem}>{userData.Email}</Text>
         <Text style={styles.textItem}>{userData.phoneNumber}</Text>
-        <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text> 
-    </View>);
-};
+        <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text>
+    </ScrollView>);
+});
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     headerText: {
         fontWeight: 'bold',
         fontSize: 22,
