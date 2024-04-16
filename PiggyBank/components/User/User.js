@@ -56,7 +56,7 @@ const User = () => {
     useEffect(() => {
         fetchData()
     }, [])
-  
+
     return (
         <Tab.Navigator initialRouteName='Home'>
             <Tab.Screen name='Home'>
@@ -68,6 +68,7 @@ const User = () => {
             <Tab.Screen name='Settings'>
                 {() => <UserSettings refreshing={refreshing} onRefresh={fetchData} data={settingsData} />}
             </Tab.Screen>
+
         </Tab.Navigator>
     );
 };
