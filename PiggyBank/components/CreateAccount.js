@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const API_URL = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
+const API_URL = 'http://localhost:3000/create'; // Replace with your actual API endpoint
 
 const CreateAccount = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [address, setAddress] = useState('');
   const [businessId, setBusinessId] = useState('')
 
   const handleRegister = async () => {
@@ -17,11 +20,13 @@ const CreateAccount = ({ navigation }) => {
         return;
     }
     try {
-      const response = await axios.post(`${API_URL}/register`, {
-        username,
-        password,
+      const response = await axios.post(`${API_URL}`, {
         email,
-        businessId,
+        password,
+        name,
+        phoneNumber,
+        address
+        //businessId,
       });
 
       if (response.data.success) {
@@ -41,9 +46,10 @@ const CreateAccount = ({ navigation }) => {
       <Text style={styles.title}>Create a New Account</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={(text) => setUsername(text)}
+        placeholder="Email"
+        keyboardType='email-address'
+        value={email}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={styles.input}
@@ -61,18 +67,29 @@ const CreateAccount = ({ navigation }) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
+        placeholder="Name"
+        value={name}
+        onChangeText={(text) => setName(text)}
       />
-      <Text>Are you part of a business? Enter your business ID here.</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Phone-Number"
+        value={phoneNumber}
+        onChangeText={(text) => setPhoneNumber(text)}
+      />
+      <TextInput
+      style={styles.input}
+      placeholder="Address"
+      value={address}
+      onChangeText={(text) => setAddress(text)}
+      />
+      {/* <Text>Are you part of a business? Enter your business ID here.</Text>
       <TextInput
         style={styles.input}
         placeholder="Business ID"
         value={businessId}
         onChangeText={(text) => setBusinessId(text)}
-      />
+      /> */}
       <Button title="Register" onPress={handleRegister} />
     </View>
   );

@@ -72,6 +72,8 @@
        />
        <Button title="Login" onPress={handleLogin} />
        <Button title="Create New Account" onPress={() => navigation.navigate('Create Account')} />
+       <Button title="DEV business landing" onPress={() => navigation.navigate('Business')} />
+       <Button title="DEV POS landing" onPress={() => navigation.navigate('POS')} />
      </View>
    );
  };
