@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, ActivityIndicator} from 'react';
+import { getUserData } from '../storage';
 import UserHome from './UserHome';
 import UserAnalytics from './UserAnalytics';
 import UserSettings from './UserSettings';
@@ -12,21 +13,23 @@ const User = () => {
     const [analyticsData, setAnalyticsData] = useState([]);
     const [settingsData, setSettingsData] = useState([]);
 
-    const API_URL = 'YOUR_API_ENDPOINT'; // Replace with your actual API endpoint
-    const UUID = 'UUID'; //replace with actual customer uuid from auth
-
-    const fetchData = useCallback(() => {
+    const fetchData = async() => {
         setRefreshing(true);
         try {
-            const response = axios.get(`${API_URL}/${UUID}`)
-            if (response.status === 200) {
-                setHomeData(response.data)
+            const data = await getUserData();
+            if (data) {
+                setHomeData(data);
             } else {
-                console.error('Failed to fetch customer data')
+                console.error("Error getting customer data");
             }
+            setRefreshing(false);
         } catch (error) {
             console.error('Error fetching customer data:', error);
         }
+
+        if (refreshing) {
+            return <ActivityIndicator />;
+          }
 
 
         // setHomeData({'username': "User123", 'email':"Email@test.com", 'phoneNumber':"123456789", 'balance':"112.00"});
@@ -51,7 +54,7 @@ const User = () => {
         // setSettingsData(newData);
 
         setRefreshing(false);
-    }, []);
+    };
 
     useEffect(() => {
         fetchData()
