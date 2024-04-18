@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet, Switch } from 'react-native';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/create'; // Replace with your actual API endpoint
@@ -8,25 +8,25 @@ const CreateAccount = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [address, setAddress] = useState('');
   const [businessId, setBusinessId] = useState('')
+  const [isBusiness, setIsBusiness] = useState(false);
+  const toggleSwitch = () => setIsBusiness(previousState => !previousState);
 
   const handleRegister = async () => {
     if(password != passwordConfirmation) {
         Alert.alert('Password fields do not match, please confirm your password.')
         return;
     }
+    if((isBusiness && businessId==='') || email==='' || password==='') {
+      Alert.alert('Empty Fields')
+      return;
+    }
+    
     try {
       const response = await axios.post(`${API_URL}`, {
         email,
         password,
-        name,
-        phoneNumber,
-        address
-        //businessId,
+        businessId,
       });
 
       if (response.data.success) {
@@ -44,6 +44,10 @@ const CreateAccount = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create a New Account</Text>
+      <View style={styles.switch}>
+        <Text>Create a Business Account</Text>
+        <Switch onValueChange={toggleSwitch} value={isBusiness}/>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -65,31 +69,17 @@ const CreateAccount = ({ navigation }) => {
         value={passwordConfirmation}
         onChangeText={(text) => setPasswordConfirmation(text)}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Phone-Number"
-        value={phoneNumber}
-        onChangeText={(text) => setPhoneNumber(text)}
-      />
-      <TextInput
-      style={styles.input}
-      placeholder="Address"
-      value={address}
-      onChangeText={(text) => setAddress(text)}
-      />
-      {/* <Text>Are you part of a business? Enter your business ID here.</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Business ID"
-        value={businessId}
-        onChangeText={(text) => setBusinessId(text)}
-      /> */}
+      {isBusiness && (
+        <View style={styles.businessBox}>
+          <Text>Enter your business ID here.</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Business ID"
+            value={businessId}
+            onChangeText={(text) => setBusinessId(text)}
+          />
+        </View>
+      )}
       <Button title="Register" onPress={handleRegister} />
     </View>
   );
@@ -113,6 +103,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     padding: 8,
+  },
+  switch: {
+    flexDirection: 'row',
+  },
+  businessBox: {
+    width: '100%',
   },
 });
 

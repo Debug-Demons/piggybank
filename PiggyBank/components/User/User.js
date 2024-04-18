@@ -3,22 +3,25 @@ import React, {useState, useEffect, ActivityIndicator} from 'react';
 import { getUserData } from '../storage';
 import UserHome from './UserHome';
 import UserAnalytics from './UserAnalytics';
-import UserSettings from './UserSettings';
 
 const Tab = createBottomTabNavigator();
 
-const User = () => {
+const User = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [homeData, setHomeData] = useState([]);
     const [analyticsData, setAnalyticsData] = useState([]);
-    const [settingsData, setSettingsData] = useState([]);
 
     const fetchData = async() => {
         setRefreshing(true);
+        //User data
         try {
             const data = await getUserData();
-            if (data) {
+            const stocks = await fetch('https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2024-01-01/2024-01-31?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk');
+            console.error(stocks)
+            if(stocks.status===200) {
+                console.error(stocks)
                 setHomeData(data);
+                setAnalyticsData(stocks.json())
             } else {
                 console.error("Error getting customer data");
             }
@@ -63,15 +66,11 @@ const User = () => {
     return (
         <Tab.Navigator initialRouteName='Home'>
             <Tab.Screen name='Home'>
-                {() => <UserHome refreshing={refreshing} onRefresh={fetchData} data={homeData} />}
+                {() => <UserHome navigation={navigation} refreshing={refreshing} onRefresh={fetchData} data={homeData} />}
             </Tab.Screen>
             <Tab.Screen name='Analytics'>
                 {() => <UserAnalytics refreshing={refreshing} onRefresh={fetchData} data={analyticsData} />}
             </Tab.Screen>
-            <Tab.Screen name='Settings'>
-                {() => <UserSettings refreshing={refreshing} onRefresh={fetchData} data={settingsData} />}
-            </Tab.Screen>
-
         </Tab.Navigator>
     );
 };
