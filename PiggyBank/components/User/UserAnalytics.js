@@ -1,29 +1,35 @@
 import React from "react";
 import {View, Text, ScrollView, StyleSheet, RefreshControl} from 'react-native'
-import LineChart from '../LineChart'
+import LineGraph from '../LineChart'
 
 const UserAnalytics = React.memo(({refreshing, onRefresh, data}) => {
     return (
-        <ScrollView contentContainerStyle={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <LineChart></LineChart>
-            <Text style={styles.headerText}>Investments</Text>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {data.map((item) => (
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContainer} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <Text>Apple Stock (AAPL)</Text>
+          <LineGraph stocksData={data["apple"]}></LineGraph>
+          <Text>Google Stock (GOOGL)</Text>
+          <LineGraph stocksData={data["google"]}></LineGraph>
+          <Text>Microsoft Stock (MSFT)</Text>
+          <LineGraph stocksData={data["microsoft"]}></LineGraph>
+          <Text style={styles.headerText}>Investments</Text>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+                {/* {data.map((item) => (
                     <View key={item.id} style={styles.listItem}>
                         <Text style={styles.itemText}>{item.text}</Text>
                         <Text style={styles.itemText}>{item.date}</Text>
                         <Text style={[styles.amountText, {color: item.amount.includes('-') ? 'red' : 'green' }, ]}>{item.amount}</Text>
                     </View>
-                ))}
+                ))} */}
         </ScrollView>
     </ScrollView>
+    </View>
     );
 });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },

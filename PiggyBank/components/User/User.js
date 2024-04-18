@@ -3,56 +3,61 @@ import React, {useState, useEffect, ActivityIndicator} from 'react';
 import { getUserData } from '../storage';
 import UserHome from './UserHome';
 import UserAnalytics from './UserAnalytics';
-import UserSettings from './UserSettings';
 
 const Tab = createBottomTabNavigator();
 
-const User = () => {
+const User = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [homeData, setHomeData] = useState([]);
     const [analyticsData, setAnalyticsData] = useState([]);
-    const [settingsData, setSettingsData] = useState([]);
+    const currentDate = new Date();
+    const twentyFourHoursAgo = new Date(currentDate.getTime() - (24 * 60 * 60 * 1000));
+
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = (currentDate.getDate()).toString().padStart(2, '0');
+    const year2 = twentyFourHoursAgo.getFullYear();
+    const month2 = (twentyFourHoursAgo.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day2 = twentyFourHoursAgo.getDate().toString().padStart(2, '0');
+    const range1 = `${year}-${month}-${day}`;
+    const range2 = `${year2}-${month2}-${day2}`;
 
     const fetchData = async() => {
         setRefreshing(true);
+        //User data
         try {
             const data = await getUserData();
-            if (data) {
+            if(data) {
                 setHomeData(data);
             } else {
                 console.error("Error getting customer data");
             }
-            setRefreshing(false);
         } catch (error) {
             console.error('Error fetching customer data:', error);
         }
 
+        //stock data
+        try {
+            const aaplStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const googlStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/GOOGL/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const msftStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const aaplStocks = await aaplStocksResponse.json();
+            const googlStocks = await googlStocksResponse.json();
+            const msftStocks = await msftStocksResponse.json();
+
+            if (aaplStocks.results && googlStocks.results && msftStocks.results) {
+                const stocksData = {"apple":aaplStocks, "google": googlStocks, "microsoft":msftStocks};
+                setAnalyticsData(stocksData);
+            }
+        } catch(error) {
+            console.error("Error retrieving stock info");
+        } finally {
+            setRefreshing(false);
+        }
+
         if (refreshing) {
             return <ActivityIndicator />;
-          }
-
-
-        // setHomeData({'username': "User123", 'email':"Email@test.com", 'phoneNumber':"123456789", 'balance':"112.00"});
-        // setAnalyticsData([
-        //     { id: '1', text: 'Apple', amount: '0.22', date:'11/30/23' },
-        //     { id: '2', text: 'Tesla', amount: '-0.39', date:'07/20/23' },
-        //     { id: '3', text: 'Sony', amount: '0.57', date:'01/15/22' },
-        //     { id: '4', text: 'Apple', amount: '0.22', date:'11/30/23' },
-        //     { id: '5', text: 'Tesla', amount: '-0.39', date:'07/20/23' },
-        //     { id: '6', text: 'Sony', amount: '0.57', date:'01/15/22' },
-        //     { id: '7', text: 'Apple', amount: '0.22', date:'11/30/23' },
-        //     { id: '8', text: 'Tesla', amount: '-0.39', date:'07/20/23' },
-        //     { id: '9', text: 'Sony', amount: '0.57', date:'01/15/22' },
-        //     { id: '10', text: 'Apple', amount: '0.22', date:'11/30/23' },
-        //     { id: '11', text: 'Tesla', amount: '-0.39', date:'07/20/23' },
-        //     { id: '12', text: 'Sony', amount: '0.57', date:'01/15/22' },
-        //     { id: '13', text: 'Apple', amount: '0.22', date:'11/30/23' },
-        //     { id: '14', text: 'Tesla', amount: '-0.39', date:'07/20/23' },
-        //     { id: '15', text: 'Sony', amount: '0.57', date:'01/15/22' },
-        //     // Add more items as needed
-        //     ]);
-        // setSettingsData(newData);
-
+        }
         setRefreshing(false);
     };
 
@@ -63,15 +68,11 @@ const User = () => {
     return (
         <Tab.Navigator initialRouteName='Home'>
             <Tab.Screen name='Home'>
-                {() => <UserHome refreshing={refreshing} onRefresh={fetchData} data={homeData} />}
+                {() => <UserHome navigation={navigation} refreshing={refreshing} onRefresh={fetchData} data={homeData} />}
             </Tab.Screen>
             <Tab.Screen name='Analytics'>
                 {() => <UserAnalytics refreshing={refreshing} onRefresh={fetchData} data={analyticsData} />}
             </Tab.Screen>
-            <Tab.Screen name='Settings'>
-                {() => <UserSettings refreshing={refreshing} onRefresh={fetchData} data={settingsData} />}
-            </Tab.Screen>
-
         </Tab.Navigator>
     );
 };
