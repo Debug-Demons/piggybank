@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, Switch } from 'react-native';
 import axios from 'axios';
 import { saveUserData } from './storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
 const API_URL_CUSTOMERS = 'http://localhost:3000/customers/create'; // Replace with your actual API endpoint
 const API_URL_BUSINESS =  'http://localhost:3000/business/create';
 
@@ -33,7 +34,7 @@ const CreateAccount = ({ navigation }) => {
     }
   
     //For Axios. Conditional statment for where to send the json file to 
-    const API_URL = isBusiness ? API_URL_BUSINESS : API_URL_CUSTOMER;
+    const API_URL = isBusiness ? API_URL_BUSINESS : API_URL_CUSTOMERS;
       //check for jsonfile
     const body = isBusiness ? {
       email, password, businessType, name, address, phoneNumber
