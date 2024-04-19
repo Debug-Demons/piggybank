@@ -38,7 +38,7 @@ const CreateAccount = ({ navigation }) => {
       Alert.alert('Password fields do not match, please confirm your password.');
       return;
     }
-    //conditional statment for which url to send the data to 
+    //conditional statment for which url to send the data to
     const API_URL = isBusiness ? API_URL_BUSINESS : API_URL_CUSTOMERS;
     const body = isBusiness ? {
       email, password, businessType, name, address, phoneNumber
