@@ -23,6 +23,7 @@ import React from 'react';
 import PosHome from './PosHome';
 import CheckOut from './CheckOut';
 import { CartProvider } from './CartContext';
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const Tab = createBottomTabNavigator();
 

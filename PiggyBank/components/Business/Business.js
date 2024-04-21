@@ -8,7 +8,7 @@ import BussinessProducts from './BussinessProducts';
 
 
 const Tab = createBottomTabNavigator();
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const Business = () => {
   // Mock account information (replace with actual user data)
 

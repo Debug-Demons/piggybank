@@ -3,7 +3,8 @@ import React, {useState, useEffect, ActivityIndicator} from 'react';
 import { getUserData } from '../storage';
 import UserHome from './UserHome';
 import UserAnalytics from './UserAnalytics';
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+const polyKey = process.env.EXPO_PUBLIC_POLYGON_API_KEY;
 const Tab = createBottomTabNavigator();
 
 const User = ({navigation}) => {

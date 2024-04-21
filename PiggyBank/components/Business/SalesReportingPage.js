@@ -4,7 +4,7 @@ import { LineChart } from 'react-native-chart-kit';
 import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient
 import BubbleButton from './BubbleButton'; // Import the BubbleButton component
 import DateFilterBox from './DateFilterBox'; // Import the DateFilterBox component
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 
 const SalesReportingPage = () => {

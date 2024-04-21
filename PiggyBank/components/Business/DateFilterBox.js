@@ -75,6 +75,8 @@ import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+
 const DateFilterBox = ({ onFetchData }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());

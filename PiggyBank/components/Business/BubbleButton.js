@@ -67,7 +67,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const BubbleButton = ({ title, onPress, backgroundColor }) => {
   const navigation = useNavigation();
   // Initialize animation value

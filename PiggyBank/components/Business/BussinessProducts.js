@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { products as initialProducts } from '../MockData'; // Adjust path as needed
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const BusinessProducts = () => {
   const [products, setProducts] = useState(initialProducts);

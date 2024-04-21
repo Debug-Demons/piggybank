@@ -8,7 +8,7 @@ import SalesReportingPage from './SalesReportingPage'; // Adjust the import path
 
 
 const Stack = createNativeStackNavigator();
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const AnalyticsNavigator = () => {
   return (
     <Stack.Navigator>

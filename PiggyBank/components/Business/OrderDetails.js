@@ -123,6 +123,7 @@
 
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const OrderDetails = ({ route, navigation }) => {
   const { order } = route.params;

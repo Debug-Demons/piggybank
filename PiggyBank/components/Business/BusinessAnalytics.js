@@ -223,7 +223,7 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const AnalyticsPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
