@@ -57,6 +57,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomerData from './CustomerData';
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const OrderHistoryPage = ({ navigation }) => {
   

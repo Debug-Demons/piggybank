@@ -108,7 +108,7 @@ import { LineChart } from 'react-native-chart-kit'; // Import LineChart
 import { ScrollView } from 'react-native';
 import { hours, salesData } from '../MockData';
 
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const BusinessHome = () => {
 

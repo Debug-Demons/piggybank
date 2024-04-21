@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const CreateItem = ({ navigation }) => {
   const [itemName, setItemName] = useState('');

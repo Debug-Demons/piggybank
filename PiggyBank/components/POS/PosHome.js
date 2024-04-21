@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Dimens
 import { useCart } from './CartContext';
 import { products } from '../MockData';
 
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const PosHome = () => {
   const { addToCart } = useCart();
   const [inputPrice, setInputPrice] = useState('');

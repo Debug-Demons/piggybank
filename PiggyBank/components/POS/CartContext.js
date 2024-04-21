@@ -1,6 +1,6 @@
 // CartContext.js
 import React, { createContext, useState, useContext } from 'react';
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);

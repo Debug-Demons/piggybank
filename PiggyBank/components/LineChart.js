@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const LineGraph = ({stocksData}) => {
   const highs = stocksData.results.map(item => item.h);
   const lows = stocksData.results.map(item => item.l);

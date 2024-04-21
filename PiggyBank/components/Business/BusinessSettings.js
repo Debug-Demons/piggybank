@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import BubbleButton from './BubbleButton'; // Make sure this path is correct
 
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const EditableTextBox = ({label, onSave}) => {
     const [isEditing, setIsEditing] = useState(false);

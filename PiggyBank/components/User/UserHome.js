@@ -2,7 +2,7 @@
 import React from 'react';
 import {ScrollView, Text, Image, Button, StyleSheet, RefreshControl} from 'react-native';
 const UserHome = React.memo(({navigation, refreshing, onRefresh, data}) => {
-
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
     //const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
     //logout logic 
   const handleLogout = async() =>{
