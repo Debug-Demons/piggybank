@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet, Switch, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { View, Text, TextInput, Button, Alert, StyleSheet, Switch } from 'react-native';
 import axios from 'axios';
 import { saveUserData } from './storage';
 const baseURL = process.env.EXPO_PUBLIC__URL_API;
-const API_URL_CUSTOMERS = baseURL +'api/customers/create';
-const API_URL_BUSINESS  = baseURL +'api/business/create';
+const API_URL_CUSTOMERS = baseURL + 'api/customers/create';
+const API_URL_BUSINESS = baseURL + 'api/business/create';
 
 const LINK_BUSINESS = 'Business'
 const LINK_USER = 'User'
@@ -23,31 +22,20 @@ const CreateAccount = ({ navigation }) => {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  // Customer specific fields
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
   // Business specific fields
   const [businessType, setBusinessType] = useState('');
-
-  const onChangeDate = (event, selectedDate) => {
-    const currentDate = selectedDate || dateOfBirth;
-    setShowDatePicker(Platform.OS === 'ios');
-    setDateOfBirth(currentDate);
-  };
 
   const handleRegister = async () => {
     if (password !== passwordConfirmation) {
       Alert.alert('Password fields do not match, please confirm your password.');
       return;
     }
-    //conditional statment for which url to send the data to
     const API_URL = isBusiness ? API_URL_BUSINESS : API_URL_CUSTOMERS;
-    const NAV_LINK = isBusiness ? LINK_BUSINESS: LINK_USER;
+    const NAV_LINK = isBusiness ? LINK_BUSINESS : LINK_USER;
     const body = isBusiness ? {
       email, password, businessType, name, address, phoneNumber
     } : {
-      email, password, dateOfBirth: dateOfBirth.toISOString().split('T')[0], name, address, phoneNumber
+      email, password, name, address, phoneNumber
     };
 
     try {
@@ -61,15 +49,11 @@ const CreateAccount = ({ navigation }) => {
       }
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error('Error status code:', error.response.status);
         console.error('Error details:', error.response.data);
       } else if (error.request) {
-        // The request was made but no response was received
         console.error('No response received:', error.request);
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error('Error', error.message);
       }
     }
@@ -88,22 +72,8 @@ const CreateAccount = ({ navigation }) => {
       <TextInput style={styles.input} placeholder="Name" value={name} autoCapitalize="none" onChangeText={setName}/>
       <TextInput style={styles.input} placeholder="Address" value={address} autoCapitalize="none" onChangeText={setAddress}/>
       <TextInput style={styles.input} placeholder="Phone Number" value={phoneNumber} autoCapitalize="none" onChangeText={setPhoneNumber}/>
-      {isBusiness ? (
+      {isBusiness && (
         <TextInput style={styles.input} placeholder="Business Type" value={businessType} autoCapitalize="none" onChangeText={setBusinessType}/>
-      ) : (
-        <>
-          <Text>Date of Birth:</Text>
-          <Button title="Select Date" onPress={() => setShowDatePicker(true)} />
-          {showDatePicker && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={dateOfBirth}
-              mode="date"
-              display="default"
-              onChange={onChangeDate}
-            />
-          )}
-        </>
       )}
       <Button title="Register" onPress={handleRegister} />
     </View>

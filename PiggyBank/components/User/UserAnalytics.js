@@ -1,6 +1,8 @@
 import React from "react";
 import {View, Text, ScrollView, StyleSheet, RefreshControl} from 'react-native'
 import LineGraph from '../LineChart'
+import { getUserData } from '../storage';
+
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const UserAnalytics = React.memo(({refreshing, onRefresh, data}) => {
     return (
