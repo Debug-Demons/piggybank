@@ -443,6 +443,272 @@
 // export default Checkout;
 
 
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, TouchableOpacity, StyleSheet, Switch, Alert } from 'react-native';
+// import { useCart } from './CartContext';
+
+// const Checkout = () => {
+//   const { cart } = useCart();
+//   const [exactTotal, setExactTotal] = useState(0);
+//   const [roundUpActive, setRoundUpActive] = useState(false);
+//   const [roundUpDifference, setRoundUpDifference] = useState(0);
+
+//   useEffect(() => {
+//     // Calculate the exact total from the cart
+//     const total = cart.reduce((acc, curr) => acc + curr.price, 0);
+//     setExactTotal(total);
+
+//     // If round-up is active, adjust the rounded total and the difference
+//     if (roundUpActive) {
+//       const roundedTotal = Math.ceil(total);
+//       setRoundUpDifference((roundedTotal - total).toFixed(2));  // calculate round-up difference
+//     } else {
+//       setRoundUpDifference(0);  // reset round-up difference if not active
+//     }
+//   }, [cart, roundUpActive]);
+
+//   const toggleRoundUp = () => {
+//     setRoundUpActive(!roundUpActive);
+//   };
+
+//   // This will now either return the exact total or the rounded total depending on the toggle
+//   const displayTotal = () => {
+//     if (roundUpActive) {
+//       return (Math.ceil(exactTotal)).toFixed(2);
+//     }
+//     return exactTotal.toFixed(2);
+//   };
+
+
+//   // const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+//   // const sendStockTrade = (amount) => {
+//   //   fetch(`${baseURL}/buy-stocks`, {
+//   //       method: 'POST',
+//   //       headers: {
+//   //           'Content-Type': 'application/json',
+//   //       },
+//   //       body: JSON.stringify({ amount })
+//   //   })
+//   //   .then(response => response.json())
+//   //   .then(data => {
+//   //       Alert.alert('Success', 'Donation successful: ' + data.message);
+//   //   })
+//   //   .catch(error => {
+//   //       console.error('Error donating round-up:', error);
+//   //       Alert.alert('Error', 'Donation failed: ' + error.message);
+//   //   });
+//   // };
+
+
+//   const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+// // best so far
+
+// // const sendStockTrade = (amount) => {
+// //     fetch(`${baseURL}/buy-stocks`, {
+// //         method: 'POST',
+// //         headers: {
+// //             'Content-Type': 'application/json',
+// //         },
+// //         body: JSON.stringify({ amount })
+// //     })
+// //     .then(response => {
+// //         // Check if the response is ok (status in the range 200-299)
+// //         if (!response.ok) {
+// //             // If not OK, throw an error with the status
+// //             throw new Error('Network response was not ok, status: ' + response.status);
+// //         }else {
+// //           Alert.alert('Maybe', 'Maybe Invest: ' + data.message);
+// //         }
+// //         return response.json();
+// //     })
+// //     .then(data => {
+// //         Alert.alert('Success', 'Successful Invest: ' + data.message);
+// //     })
+// //     .catch(error => {
+// //         console.error('Error Investing round-up:', error);
+// //         // Extract more meaningful message if the error is due to network response
+// //         const message = error.message.includes('status') 
+// //             ? "There was a problem with your request. Please try again."
+// //             : 'Donation failed: ' + error.message;
+// //         Alert.alert('Error', message);
+// //     });
+// // };
+
+// // const sendStockTrade = (amount) => {
+// //   //fetch(`${baseURL}buy-stocks`, {
+// //     fetch('http://localhost:3000/buy-stocks', {
+// //       method: 'POST',
+// //       headers: {
+// //           'Content-Type': 'application/json',
+// //       },
+// //       body: JSON.stringify({ amount })
+// //   })
+// //   .then(response => {
+// //       // Always check the response status first
+// //       if (!response.ok) {
+// //           // If not OK, throw an error including the status text
+// //           throw new Error(`Network response was not ok, status: ${response.status} ${response.statusText}`);
+// //       }
+// //       return response.json();  // Convert the response to JSON
+// //   })
+// //   .then(data => {
+// //       // Assuming 'data' contains 'message' key
+// //       Alert.alert('Success', `Successful Invest: ${data.message || 'Completed'}`);
+// //   })
+// //   .catch(error => {
+// //       console.error('Error Investing round-up:', error);
+// //       // Provide a more user-friendly message or use error.message to see more details
+// //       Alert.alert('Error', `Investment failed: ${error.toString()}`);
+// //   });
+// // };
+
+// const sendStockTrade = (amount) => {
+//   fetch('http://localhost:3000/buy-stocks', {
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ amount })
+//   })
+//   .then(response => {
+//       if (!response.ok) {
+//           // If not OK, throw an error including the status text
+//           throw new Error(`Network response was not ok, status: ${response.status} ${response.statusText}`);
+//       }
+//       return response.text();  // First, get the response as text
+//   })
+//   .then(text => {
+//       try {
+//           const data = JSON.parse(text);  // Try parsing it as JSON
+//           Alert.alert('Success', `Successful Invest: ${data.message || 'Completed'}`);
+//       } catch (error) {
+//           // If JSON parsing fails, use the text directly
+//           //throw new Error(`${text}`);
+//           Alert.alert('Success', `Successful Invest: ${text}`);
+
+          
+//       }
+//   })
+//   .catch(error => {
+//       console.error('Error Investing round-up:', error);
+//       Alert.alert('Error', `Investment failed: ${error.toString()}`);
+//   });
+// };
+
+
+
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.orderInfo}>
+//         <Text style={styles.title}>Checkout</Text>
+//         {cart.map((item, index) => (
+//           <Text key={index} style={styles.item}>{item.name} - ${item.price.toFixed(2)}</Text>
+//         ))}
+//         <Text style={styles.total}>Total: ${displayTotal()}</Text>
+//         {roundUpActive && <Text style={styles.difference}>Round Up Difference: ${roundUpDifference}</Text>}
+//         <View style={styles.roundUpContainer}>
+//           <Text>Round Up Total</Text>
+//           <Switch onValueChange={toggleRoundUp} value={roundUpActive} />
+//         </View>
+//       </View>
+//       <View style={styles.buttonsContainer}>
+//         <TouchableOpacity style={[styles.button, styles.cashButton]}
+//           onPress={() => sendStockTrade(roundUpDifference)}  // Cash button now sends the donation when pressed
+//         >
+//           <Text style={styles.buttonText}>Cash</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={[styles.button, styles.cardButton]}>
+//           <Text style={styles.buttonText}>Card</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={[styles.button, styles.loyaltyButton]}>
+//           <Text style={styles.buttonText}>Loyalty</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={[styles.button, styles.cancelButton]}>
+//           <Text style={styles.buttonText}>Cancel Transaction</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//     justifyContent: 'space-between',
+//   },
+//   orderInfo: {},
+//   title: {
+//     fontSize: 24,
+//     marginBottom: 20,
+//     fontWeight: 'bold',
+//   },
+//   item: {
+//     fontSize: 18,
+//     marginVertical: 5,
+//   },
+//   total: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//   },
+//   difference: {
+//     fontSize: 16,
+//     color: 'green',
+//     marginBottom: 10,
+//   },
+//   roundUpContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     paddingVertical: 10,
+//   },
+//   buttonsContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-around',
+//     alignItems: 'center',
+//   },
+//   button: {
+//     width: 90,
+//     height: 90,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     borderRadius: 45,
+//     elevation: 3,
+//   },
+//   buttonText: {
+//     textAlign: 'center',
+//     fontWeight: 'bold',
+//   },
+//   cashButton: {
+//     backgroundColor: '#4CAF50',
+//   },
+//   cardButton: {
+//     backgroundColor: '#2196F3',
+//   },
+//   loyaltyButton: {
+//     backgroundColor: '#FFC107',
+//   },
+//   cancelButton: {
+//     backgroundColor: '#F44336',
+//   },
+// });
+
+// export default Checkout;
+
+
+
+
+
+
+
+
+
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Alert } from 'react-native';
 import { useCart } from './CartContext';
@@ -454,14 +720,12 @@ const Checkout = () => {
   const [roundUpDifference, setRoundUpDifference] = useState(0);
 
   useEffect(() => {
-    // Calculate the exact total from the cart
     const total = cart.reduce((acc, curr) => acc + curr.price, 0);
     setExactTotal(total);
 
-    // If round-up is active, adjust the rounded total and the difference
     if (roundUpActive) {
-      const roundedTotal = Math.ceil(total);
-      setRoundUpDifference((roundedTotal - total).toFixed(2));  // calculate round-up difference
+      const roundedTotal = Math.ceil(total) + 1;  // Adding 1 dollar after rounding up to the nearest whole number
+      setRoundUpDifference((roundedTotal - total).toFixed(2));  // calculate round-up difference including the extra dollar
     } else {
       setRoundUpDifference(0);  // reset round-up difference if not active
     }
@@ -471,98 +735,42 @@ const Checkout = () => {
     setRoundUpActive(!roundUpActive);
   };
 
-  // This will now either return the exact total or the rounded total depending on the toggle
   const displayTotal = () => {
     if (roundUpActive) {
-      return (Math.ceil(exactTotal)).toFixed(2);
+      return (Math.ceil(exactTotal) + 1).toFixed(2);  // Display total includes the additional dollar
     }
     return exactTotal.toFixed(2);
   };
 
+  const sendStockTrade = (amount) => {
+   // fetch('http://localhost:3000/buy-stocks', {
+    fetch(`${baseURL}/buy-stocks`, {
 
-  // const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
-  // const sendStockTrade = (amount) => {
-  //   fetch(`${baseURL}/buy-stocks`, {
-  //       method: 'POST',
-  //       headers: {
-  //           'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ amount })
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //       Alert.alert('Success', 'Donation successful: ' + data.message);
-  //   })
-  //   .catch(error => {
-  //       console.error('Error donating round-up:', error);
-  //       Alert.alert('Error', 'Donation failed: ' + error.message);
-  //   });
-  // };
-
-
-  const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
-// best so far
-
-// const sendStockTrade = (amount) => {
-//     fetch(`${baseURL}/buy-stocks`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ amount })
-//     })
-//     .then(response => {
-//         // Check if the response is ok (status in the range 200-299)
-//         if (!response.ok) {
-//             // If not OK, throw an error with the status
-//             throw new Error('Network response was not ok, status: ' + response.status);
-//         }else {
-//           Alert.alert('Maybe', 'Maybe Invest: ' + data.message);
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         Alert.alert('Success', 'Successful Invest: ' + data.message);
-//     })
-//     .catch(error => {
-//         console.error('Error Investing round-up:', error);
-//         // Extract more meaningful message if the error is due to network response
-//         const message = error.message.includes('status') 
-//             ? "There was a problem with your request. Please try again."
-//             : 'Donation failed: ' + error.message;
-//         Alert.alert('Error', message);
-//     });
-// };
-
-const sendStockTrade = (amount) => {
-  fetch(`${baseURL}buy-stocks`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount })
-  })
-  .then(response => {
-      // Always check the response status first
-      if (!response.ok) {
-          // If not OK, throw an error including the status text
-          throw new Error(`Network response was not ok, status: ${response.status} ${response.statusText}`);
-      }
-      return response.json();  // Convert the response to JSON
-  })
-  .then(data => {
-      // Assuming 'data' contains 'message' key
-      Alert.alert('Success', `Successful Invest: ${data.message || 'Completed'}`);
-  })
-  .catch(error => {
-      console.error('Error Investing round-up:', error);
-      // Provide a more user-friendly message or use error.message to see more details
-      Alert.alert('Error', `Investment failed: ${error.toString()}`);
-  });
-};
-
-
-
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok, status: ${response.status} ${response.statusText}`);
+        }
+        return response.text();  // getting the response as text first to check if it's valid JSON
+    })
+    .then(text => {
+        try {
+            const data = JSON.parse(text);  // parsing text to JSON
+            Alert.alert('Success', `Successful Invest: ${data.message || 'Completed'}`);
+        } catch (error) {
+            Alert.alert('Success', `Successful Invest: ${text}`);  // directly show text if JSON parsing fails
+        }
+    })
+    .catch(error => {
+        console.error('Error Investing round-up:', error);
+        Alert.alert('Error', `Investment failed: ${error.toString()}`);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -580,7 +788,7 @@ const sendStockTrade = (amount) => {
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={[styles.button, styles.cashButton]}
-          onPress={() => sendStockTrade(roundUpDifference+1)}  // Cash button now sends the donation when pressed
+          onPress={() => sendStockTrade(roundUpDifference)}
         >
           <Text style={styles.buttonText}>Cash</Text>
         </TouchableOpacity>
@@ -661,4 +869,3 @@ const styles = StyleSheet.create({
 });
 
 export default Checkout;
-
