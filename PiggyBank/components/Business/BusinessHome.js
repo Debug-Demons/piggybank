@@ -184,7 +184,7 @@ const BusinessHome = () => {
             </View>
             <View style={styles.infoBoxesContainer}>
                 <View style={styles.infoBox}>
-                    <Text style={styles.infoText}>Orders Completed Today</Text>
+                    <Text style={styles.infoText}>Orders Today</Text>
                     <Text style={styles.infoAmount}>120</Text>
                 </View>
                 <View style={styles.infoBox}>
@@ -192,17 +192,17 @@ const BusinessHome = () => {
                     <Text style={styles.infoAmount}>5</Text>
                 </View>
                 <View style={styles.infoBox}>
-                    <Text style={styles.infoText}>Customers Count</Text>
+                    <Text style={styles.infoText}>Order Count</Text>
                     <Text style={styles.infoAmount}>8</Text>
                 </View>
             </View>
             <View style={styles.infoBoxesContainer}>
                 <View style={styles.infoBox}>
-                    <Text style={styles.infoText}>Average Order Total</Text>
+                    <Text style={styles.infoText}>AVG Order Total</Text>
                     <Text style={styles.infoAmount}>$27.89</Text>
                 </View>
                 <View style={styles.infoBox}>
-                    <Text style={styles.infoText}>Estimated Profit</Text>
+                    <Text style={styles.infoText}>Profit</Text>
                     <Text style={styles.infoAmount}>$643.73</Text>
                 </View>
                 <View style={styles.infoBox}>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     salesBox: {
         padding: 20,
         backgroundColor: '#4CAF50',
-        borderRadius: 10,
+        borderRadius: 20,
         marginBottom: 20,
         alignItems: 'center', // Center align the text and chart in the salesBox
     },
@@ -249,6 +249,15 @@ const styles = StyleSheet.create({
         marginBottom: 20, // Add spacing between rows of info boxes
 
     },
+    // infoBoxesContainer: {
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between',
+    //     marginBottom: 20, // Maintains spacing between rows of info boxes
+    //     paddingHorizontal: -10, // Adds horizontal padding within the container for better edge spacing
+    //     flexWrap: 'wrap', // Allows items to wrap in multiple lines if the screen width is limited
+    //     alignItems: 'flex-start' // Aligns items to the start of the flex container
+    // },
+    
     infoBox: {
         flex: 1,
         padding: 20,
@@ -265,14 +274,17 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'center',
     },
+   
     infoAmount: {
-        //color: '#fff',
-        color: '#32CD32', // Change the color to lime green for visibility
-        fontSize: 20,
+        color: '#32CD32',  // Lime green color for visibility
+        fontSize: 15,
         fontWeight: 'bold',
-        textAlign: 'center', // Ensure the number value is centered
-
+        textAlign: 'center',  // Centers the text horizontally
+        padding: 1,           // Adds space around the text inside the border
+        minWidth: 150,        // Ensures the minimum width of the element is 100 units
+        maxWidth: 220,        // Optional: Ensures the maximum width if needed
     },
+    
 });
 
 export default BusinessHome;
