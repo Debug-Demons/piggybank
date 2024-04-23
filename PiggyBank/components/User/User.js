@@ -39,9 +39,9 @@ const User = ({navigation}) => {
 
         //stock data
         try {
-            const aaplStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
-            const googlStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/GOOGL/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
-            const msftStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/hour/${range2}/${range1}?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const aaplStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/hour/2024-04-17/$2024-04-18?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const googlStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/GOOGL/range/1/hour/2024-04-17/$2024-04-18?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
+            const msftStocksResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/hour/2024-04-17/$2024-04-18?apiKey=SUQMpUp8MyE8Y0DLVlCZaBTrNBp0pDkk`);
             const aaplStocks = await aaplStocksResponse.json();
             const googlStocks = await googlStocksResponse.json();
             const msftStocks = await msftStocksResponse.json();
