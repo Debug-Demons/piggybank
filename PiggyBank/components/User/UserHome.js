@@ -1,8 +1,8 @@
 
 import React from 'react';
-import {ScrollView, Text, Image, Button, StyleSheet, RefreshControl} from 'react-native';
+import {ScrollView, Text, Image, Button, StyleSheet, RefreshControl, Alert} from 'react-native';
 const UserHome = React.memo(({navigation, refreshing, onRefresh, data}) => {
-const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+  const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
     //const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
     //logout logic 
   const handleLogout = async() =>{
@@ -22,7 +22,7 @@ const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
         <Image style={styles.imageDim} source={require('../../assets/piggyBankLogo.png')}></Image>
         <Text style={styles.headerText}>Welcome to Piggy Bank!</Text>
         <Text style={styles.textItem}>{data.Email}</Text>
-        <Text style={[styles.balanceText, styles.textItem]}>Current Balance: ${data.balance}</Text>
+        <Text style={[styles.balanceText, styles.textItem]}>Loyalty Balance: ${data.loyalty}</Text>
         <Button title="Logout" onPress={handleLogout}/>
     </ScrollView>);
 });

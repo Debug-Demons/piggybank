@@ -1,14 +1,26 @@
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Dimensions } from 'react-native';
+import { View, Text, Button, TouchableOpacity, StyleSheet, ScrollView, TextInput, Dimensions, Alert } from 'react-native';
 import { useCart } from './CartContext';
 import { products } from '../MockData';
 
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
-const PosHome = () => {
+const PosHome = ({navigation}) => {
   const { addToCart } = useCart();
   const [inputPrice, setInputPrice] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleLogout = async() =>{
+    try{
+      const auth = getAuth();
+      await signOut(auth);
+    } catch (error) {
+      console.error('Error during logout:', error);
+      Alert.alert('Logout failed', 'An error occured when logging out. Please Try Again.');
+    } finally {
+        navigation.replace('Login')
+    }
+  }
 
   const addMiscItem = () => {
     if (inputPrice) {
@@ -99,6 +111,9 @@ const PosHome = () => {
         <TouchableOpacity style={styles.addButton} onPress={addMiscItem}>
           <Text>Add Misc Item ($ {inputPrice})</Text>
         </TouchableOpacity>
+      </View>
+      <View style={{marginTop: 30}}>
+        <Button title="Logout" onPress={handleLogout}/>
       </View>
     </View>
   );
