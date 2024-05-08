@@ -41,7 +41,7 @@ const LineGraph = ({stocksData}) => {
   const averages = stocksData.results.map(item => item.vw);
 
   const labels = [];
-  for (let i = stocksData.results.length; i > 0; i-=4) {
+  for (let i = stocksData.results.length; i > 0; i-=(stocksData.results.length/6)) {
     labels.push((i).toString() + "hrs");
   }
 
