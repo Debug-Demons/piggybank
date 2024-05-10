@@ -10,18 +10,6 @@ const PosHome = ({navigation}) => {
   const [inputPrice, setInputPrice] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleLogout = async() =>{
-    try{
-      const auth = getAuth();
-      await signOut(auth);
-    } catch (error) {
-      console.error('Error during logout:', error);
-      Alert.alert('Logout failed', 'An error occured when logging out. Please Try Again.');
-    } finally {
-        navigation.replace('Login')
-    }
-  }
-
   const addMiscItem = () => {
     if (inputPrice) {
       addToCart({ name: 'Misc Item', price: parseFloat(inputPrice) });
@@ -44,6 +32,7 @@ const PosHome = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+    <ScrollView>
       <TextInput
         style={styles.searchBar}
         placeholder="Search Products..."
@@ -113,8 +102,9 @@ const PosHome = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{marginTop: 30}}>
-        <Button title="Logout" onPress={handleLogout}/>
+        <Button title="Logout" onPress={navigation.replace('Login')}/>
       </View>
+      </ScrollView>
     </View>
   );
 };

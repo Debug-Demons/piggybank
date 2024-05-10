@@ -77,12 +77,6 @@ const LoginScreen = ({ navigation }) => {
      throw error;
    }
  };
- 
-
-
-
-
-
 
   return (
     <View style={styles.container}>
@@ -112,12 +106,6 @@ const LoginScreen = ({ navigation }) => {
       />
       <Button title="Login" onPress={handleLogin} />
       <Button title="Create New Account" onPress={() => navigation.navigate('Create Account')} />
-
-     {/* Remove the following code after done with APIs */}
-      <Button title="DEV business landing" onPress={() => navigation.replace('Business')} />
-      <Button title="DEV POS landing" onPress={() => navigation.replace('POS')} />
-      <Button title="DEV user landing" onPress={() => navigation.replace('User')} />
-      {/*  */}
     </View>
   );
 };

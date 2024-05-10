@@ -4,18 +4,6 @@ import {ScrollView, Text, Image, Button, StyleSheet, RefreshControl, Alert} from
 const UserHome = React.memo(({navigation, refreshing, onRefresh, data}) => {
   const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
     //const data = {username: 'username', email: 'name@mail.com', phoneNumber:'PhoneNumber', balance: '112.27'};
-    //logout logic 
-  const handleLogout = async() =>{
-    try{
-      const auth = getAuth();
-      await signOut(auth);
-    } catch (error) {
-      console.error('Error during logout:', error);
-      Alert.alert('Logout failed', 'An error occured when logging out. Please Try Again.');
-    } finally {
-        navigation.replace('Login')
-    }
-  }
 
     return (<ScrollView contentContainerStyle = {{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }} 
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
@@ -23,7 +11,7 @@ const UserHome = React.memo(({navigation, refreshing, onRefresh, data}) => {
         <Text style={styles.headerText}>Welcome to Piggy Bank!</Text>
         <Text style={styles.textItem}>{data.Email}</Text>
         <Text style={[styles.balanceText, styles.textItem]}>Loyalty Balance: ${data.loyalty}</Text>
-        <Button title="Logout" onPress={handleLogout}/>
+        <Button title="Logout" onPress={navigation.replace('Login')}/>
     </ScrollView>);
 });
 

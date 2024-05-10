@@ -42,7 +42,7 @@ const LineGraph = ({stocksData}) => {
 
   const labels = [];
   for (let i = stocksData.results.length; i > 0; i-=(stocksData.results.length/6)) {
-    labels.push((i).toString() + "hrs");
+    labels.push((i.toFixed(0)).toString() + "hrs");
   }
 
   const data = {
