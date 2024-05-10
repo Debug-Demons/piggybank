@@ -1,15 +1,38 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, ScrollView, TextInput, Dimensions, Alert } from 'react-native';
 import { useCart } from './CartContext';
-import { products } from '../MockData';
-
+import { getUserData } from '../storage';
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
+
 const PosHome = ({navigation}) => {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [inputPrice, setInputPrice] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${baseURL}api/products/getProductData/xUpS398uzrcDsRUQUDq5jtnf2cI2`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setProducts(data);
+        setError(null);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        setError('Failed to load products');
+      }
+      setIsLoading(false);
+    };
+  
+    fetchProducts();
+  }, []);
+  
   const handleLogout = async() =>{
     try{
       const auth = getAuth();
@@ -24,7 +47,7 @@ const PosHome = ({navigation}) => {
   const addMiscItem = () => {
     if (inputPrice) {
       addToCart({ name: 'Misc Item', price: parseFloat(inputPrice) });
-      setInputPrice(''); // Reset input
+      setInputPrice('');
     }
   };
 
@@ -36,7 +59,6 @@ const PosHome = ({navigation}) => {
     addToCart(product);
   };
 
-  // Filter products based on search term
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -50,60 +72,52 @@ const PosHome = ({navigation}) => {
         value={searchTerm}
         onChangeText={setSearchTerm}
       />
-      <View style={styles.productListContainer}>
-        <ScrollView horizontal style={styles.productList}>
-          {filteredProducts.map((product) => (
-            <TouchableOpacity
-              key={product.id}
-              style={styles.productButton}
-              onPress={() => addProductToCart(product)}
-            >
-              <Text>{product.name} - ${product.price.toFixed(2)}</Text>   
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : error ? (
+        <Text>Error: {error}</Text>
+      ) : (
+        <View style={styles.productListContainer}>
+          <ScrollView horizontal style={styles.productList}>
+            {filteredProducts.map((product) => (
+              <TouchableOpacity
+                key={product.id}
+                style={styles.productButton}
+                onPress={() => addProductToCart(product)}
+              >
+                <Text>{product.name} - ${product.price.toFixed(2)}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+      <View style={styles.keypad}>
+        {Array.from({ length: 10 }, (_, i) => (
+          <TouchableOpacity
+            key={i}
+            style={styles.button}
+            onPress={() => setInputPrice(prev => prev + i.toString())}
+          >
+            <Text style={styles.buttonText}>{i}</Text>
+          </TouchableOpacity>
+        ))}
+        <TouchableOpacity
+          style={[styles.button, inputPrice.includes('.') && styles.buttonDisabled]}
+          onPress={() => {
+            if (!inputPrice.includes('.')) {
+              setInputPrice(prev => prev + '.');
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>.</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setInputPrice(prev => prev.slice(0, -1) || '0')}
+        >
+          <Text style={styles.buttonText}>←</Text>
+        </TouchableOpacity>
       </View>
-
-
-
-<View style={styles.keypad}>
-  {Array.from({ length: 10 }, (_, i) => (
-    <TouchableOpacity
-      key={i}
-      style={styles.button}
-      onPress={() => setInputPrice(prev => prev + i.toString())}
-    >
-      <Text style={styles.buttonText}>{i}</Text>
-    </TouchableOpacity>
-  ))}
-  {/* Updated Decimal Point Button */}
-  <TouchableOpacity
-    style={[styles.button, inputPrice.includes('.') && styles.buttonDisabled]}
-    onPress={() => {
-      if (!inputPrice.includes('.')) {
-        setInputPrice(prev => prev + '.');
-      }
-    }}
-  >
-    <Text style={styles.buttonText}>.</Text>
-  </TouchableOpacity>
-
-  {/* Back Button */}
-  <TouchableOpacity
-    style={styles.button}
-    onPress={() => setInputPrice(prev => prev.slice(0, -1) || '0')}
-  >
-      <Text style={styles.buttonText}>←</Text>
-
-  </TouchableOpacity>
-
-
-    
-</View>
-
-
-
-
       <View style={styles.actions}>
         <TouchableOpacity style={styles.actionButton} onPress={clearInput}>
           <Text>Clear</Text>
@@ -126,7 +140,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start', // Adjusted to align items to the start of the screen
+    justifyContent: 'flex-start',
   },
   searchBar: {
     height: 40,
@@ -135,10 +149,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 20,
-    width: width - 40, // Adjust width to take full width minus margin
+    width: width - 40,
   },
   productListContainer: {
-    height: 100, // Adjust as needed
+    height: 100,
     width: width,
   },
   productList: {
@@ -168,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   buttonDisabled: {
-    backgroundColor: '#f8d7da', // Change as needed to indicate "disabled" state
+    backgroundColor: '#f8d7da',
   },
   buttonText: {
     fontSize: 20,
@@ -192,10 +206,3 @@ const styles = StyleSheet.create({
 });
 
 export default PosHome;
-
-
-
-
-
-
-
