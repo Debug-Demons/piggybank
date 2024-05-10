@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Alert, Button } from 'react-native';
 import { LineChart } from 'react-native-chart-kit'; // Import LineChart
 import { ScrollView } from 'react-native';
 import { hours, salesData } from '../MockData';
@@ -9,6 +9,17 @@ const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const BusinessHome = ({navigation}) => {
     // Generate labels with dashes for intermediate hours
     const chartLabels = hours.map((hour, index) => index % 2 === 0 ? hour : '|');
+
+    const handleLogout = async() =>{
+        try{
+          const auth = getAuth();
+          await signOut(auth);
+        } catch (error) {
+          console.error('Error during logout:', error);
+        } finally {
+            navigation.replace('Login')
+        }
+      }
 
     const chartData = {
         labels: chartLabels,
@@ -91,7 +102,7 @@ const BusinessHome = ({navigation}) => {
                 </View>
             </View>
         </View>
-        <Button onpress={() => {navigation.replace('Login')}}>Logout</Button>
+        <Button title="Logout" onpress={handleLogout}/>
      </ScrollView>
 
     );
@@ -130,7 +141,6 @@ const styles = StyleSheet.create({
         marginBottom: 20, // Add spacing between rows of info boxes
 
     },
-    
     infoBox: {
         flex: 1,
         padding: 20,

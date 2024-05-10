@@ -10,6 +10,17 @@ const PosHome = ({navigation}) => {
   const [inputPrice, setInputPrice] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleLogout = async() =>{
+    try{
+      const auth = getAuth();
+      await signOut(auth);
+    } catch (error) {
+      console.error('Error during logout:', error);
+    } finally {
+        navigation.replace('Login');
+    }
+  }
+
   const addMiscItem = () => {
     if (inputPrice) {
       addToCart({ name: 'Misc Item', price: parseFloat(inputPrice) });
@@ -102,7 +113,7 @@ const PosHome = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{marginTop: 30}}>
-        <Button title="Logout" onPress={navigation.replace('Login')}/>
+        <Button title="Logout" onPress={handleLogout}/>
       </View>
       </ScrollView>
     </View>
