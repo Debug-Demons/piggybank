@@ -9,14 +9,16 @@ import BussinessProducts from './BussinessProducts';
 
 const Tab = createBottomTabNavigator();
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
-const Business = () => {
+const Business = ({navigation}) => {
   // Mock account information (replace with actual user data)
   //<Tab.Screen name='CreateItem' component={CreateItem}/>
 
 
   return (
     <Tab.Navigator initialRouteName='Home'>
-      <Tab.Screen name='Home' component={BusinessHome}/>
+      <Tab.Screen name='Home'>
+          {() => <BusinessHome navigation={navigation}/>}
+        </Tab.Screen>
       <Tab.Screen name='Analytics' component={AnalyticsNavigator}/>
       <Tab.Screen name='BussinessProducts' component={BussinessProducts}/>
       <Tab.Screen name='Settings' component={BusinessSettings}/>

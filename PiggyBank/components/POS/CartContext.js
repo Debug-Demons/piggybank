@@ -1,4 +1,3 @@
-// CartContext.js
 import React, { createContext, useState, useContext } from 'react';
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 const CartContext = createContext();
@@ -12,8 +11,12 @@ export const CartProvider = ({ children }) => {
     setCart([...cart, item]);
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

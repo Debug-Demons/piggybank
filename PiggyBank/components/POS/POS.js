@@ -1,23 +1,3 @@
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import React from 'react';
-// import PosHome from './PosHome';
-// import CheckOut from './CheckOut';
-
-
-// const Tab = createBottomTabNavigator();
-
-// const POS = () => {
-
-//     return (
-//     <Tab.Navigator initialRouteName='Home'>
-//         <Tab.Screen name='POS' component={PosHome} />
-//         <Tab.Screen name='CheckOut' component={CheckOut} />
-//     </Tab.Navigator>
-//     );
-// }
-
-// export default POS;
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import PosHome from './PosHome';
@@ -27,11 +7,13 @@ const baseURL = process.env.EXPO_PUBLIC_BASE_URL_API;
 
 const Tab = createBottomTabNavigator();
 
-const POS = () => {
+const POS = ({navigation}) => {
   return (
     <CartProvider>
       <Tab.Navigator>
-        <Tab.Screen name="POS Home" component={PosHome} />
+        <Tab.Screen name="POS Home">
+          {() => <PosHome navigation={navigation}/>}
+        </Tab.Screen>
         <Tab.Screen name="Checkout" component={CheckOut} />
       </Tab.Navigator>
     </CartProvider>

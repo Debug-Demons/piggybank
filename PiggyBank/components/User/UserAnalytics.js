@@ -12,17 +12,7 @@ const UserAnalytics = React.memo(({refreshing, onRefresh, data}) => {
           <LineGraph stocksData={data["google"]}></LineGraph>
           <Text>Microsoft Stock (MSFT)</Text>
           <LineGraph stocksData={data["microsoft"]}></LineGraph>
-          <Text style={styles.headerText}>Investments</Text>
-          <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {/* {data.map((item) => (
-                    <View key={item.id} style={styles.listItem}>
-                        <Text style={styles.itemText}>{item.text}</Text>
-                        <Text style={styles.itemText}>{item.date}</Text>
-                        <Text style={[styles.amountText, {color: item.amount.includes('-') ? 'red' : 'green' }, ]}>{item.amount}</Text>
-                    </View>
-                ))} */}
         </ScrollView>
-    </ScrollView>
     </View>
     );
 });
